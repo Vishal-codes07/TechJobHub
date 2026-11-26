@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Applicants for {{ job.title }}{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'my_jobs' %}">Back to my postings</a></div>
+    <div class="page-head">
+      <div>
+        <h1>Applicants</h1>
+        <p class="sub">{{ job.title }} at {{ job.company_name }}</p>
+      </div>
+      <a class="btn btn-outline" href="{% url 'job_detail' job.pk %}">View job</a>
+    </div>
+
+    {% if applications %}
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Applicant</th><th>Email</th><th>Applied on</th></tr></thead>
+          <tbody>
+            {% for app in applications %}
+              <tr>
+                <td><strong>{{ app.applicant.get_full_name|default:app.applicant.username }}</strong>{% if app.applicant.get_full_name %}<small>{{ app.applicant.username }}</small>{% endif %}</td>
+                <td>{% if app.applicant.email %}<a href="mailto:{{ app.applicant.email }}">{{ app.applicant.email }}</a>{% else %}Not provided{% endif %}</td>
+                <td>{{ app.date_applied|date:"d M Y" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">
+        <h2>No applications yet</h2>
+        <p>When job seekers apply, they will show up here.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

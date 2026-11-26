@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="container-narrow form-card">
+  <div class="panel">
+    <h1>Log in</h1>
+    <p class="sub" style="color:var(--muted)">Welcome back. Log in to apply for jobs or manage your postings.</p>
+    <form method="post">
+      {% csrf_token %}
+      {% if form.errors %}<div class="form-error-box" role="alert">Wrong username or password. Check both and try again.</div>{% endif %}
+      {% for field in form %}
+        <div class="form-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit" class="btn btn-accent btn-block">Log in</button>
+    </form>
+    <p class="form-foot">New here? <a href="{% url 'signup' %}">Create an account</a></p>
+  </div>
+</div>
+{% endblock %}

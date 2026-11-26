@@ -1,0 +1,15 @@
+venv/
+env/
+.venv/
+env_Job_portal/
+__pycache__/
+*.pyc
+.DS_Store
+
+*.sqlite3
+.env
+venv/
+__pycache__/
+staticfiles/
+.DS_Store
+

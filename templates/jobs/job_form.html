@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{% if job %}Edit job{% else %}Post a job{% endif %}{% endblock %}
+{% block content %}
+<div class="container-narrow form-card" style="width:min(720px,92%)">
+  <div class="panel">
+    <h1>{% if job %}Edit job posting{% else %}Post a job{% endif %}</h1>
+    <p style="color:var(--muted)">{% if job %}Changes go live as soon as you save.{% else %}Tell job seekers about the role. You can edit it any time.{% endif %}</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form_fields.html" %}
+      <div class="form-actions">
+        <button type="submit" class="btn btn-accent">{% if job %}Save changes{% else %}Publish job{% endif %}</button>
+        <a class="btn btn-outline" href="{% url 'my_jobs' %}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

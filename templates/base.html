@@ -1,0 +1,52 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Find your next job{% endblock %} | JobPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  {% with current=request.resolver_match.url_name %}
+  <header class="site-nav">
+    <div class="container">
+      <a class="brand" href="{% url 'job_list' %}"><span class="brand-mark">J</span>JobPortal</a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="{% url 'job_list' %}" {% if current == 'job_list' %}class="active" aria-current="page"{% endif %}>Browse jobs</a>
+        {% if user.is_authenticated %}
+          {% if user.role == 'employer' %}
+            <a href="{% url 'my_jobs' %}" {% if current == 'my_jobs' %}class="active" aria-current="page"{% endif %}>My postings</a>
+            <a href="{% url 'job_create' %}" {% if current == 'job_create' %}class="active" aria-current="page"{% endif %}>Post a job</a>
+          {% else %}
+            <a href="{% url 'my_applications' %}" {% if current == 'my_applications' %}class="active" aria-current="page"{% endif %}>My applications</a>
+          {% endif %}
+          <span class="nav-user">{{ user.username }}</span>
+          <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="linklike">Log out</button></form>
+        {% else %}
+          <a href="{% url 'login' %}" {% if current == 'login' %}class="active" aria-current="page"{% endif %}>Log in</a>
+          <a class="btn btn-accent btn-sm" href="{% url 'signup' %}">Sign up</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  {% endwith %}
+
+  <main>
+    {% if messages %}
+      <div class="container">
+        <ul class="messages" role="status">
+          {% for message in messages %}<li class="message {{ message.tags }}">{{ message }}</li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© 2026 JobPortal. All rights reserved.</div>
+  </footer>
+</body>
+</html>

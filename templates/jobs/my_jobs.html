@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}My job postings{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="container">
+    <div class="page-head">
+      <div>
+        <h1>My job postings</h1>
+        <p class="sub">Manage your openings and see who has applied.</p>
+      </div>
+      <a class="btn btn-accent" href="{% url 'job_create' %}">Post a job</a>
+    </div>
+
+    {% if jobs %}
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Job</th><th>Salary</th><th>Applicants</th><th><span class="sr-only" style="position:absolute;left:-9999px">Actions</span></th></tr></thead>
+          <tbody>
+            {% for job in jobs %}
+              <tr>
+                <td>
+                  <a class="title" href="{% url 'job_detail' job.pk %}">{{ job.title }}</a>
+                  <small>{{ job.company_name }}, {{ job.location }}</small>
+                </td>
+                <td>₹{{ job.salary|floatformat:0|intcomma }}</td>
+                <td>
+                  {% if job.applicant_count %}
+                    <a href="{% url 'job_applicants' job.pk %}"><span class="badge badge-gold">{{ job.applicant_count }} applicant{{ job.applicant_count|pluralize }}</span></a>
+                  {% else %}<span class="badge">None yet</span>{% endif %}
+                </td>
+                <td class="actions">
+                  <a class="btn btn-outline btn-sm" href="{% url 'job_update' job.pk %}">Edit</a>
+                  <a class="btn btn-outline btn-sm" href="{% url 'job_delete' job.pk %}">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">
+        <h2>You have not posted any jobs yet</h2>
+        <p>Your first posting takes about a minute.</p>
+        <a class="btn btn-accent" href="{% url 'job_create' %}">Post a job</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
