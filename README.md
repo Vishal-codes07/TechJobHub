@@ -1,94 +1,194 @@
-# JobPortal (Django)
+# TechJobHub – Django Job Portal
 
-Employers job post karte hain, Job Seekers apply karte hain.
+**TechJobHub** is a web-based job portal developed using Django that connects employers with job seekers. Employers can publish and manage job listings, while job seekers can explore available opportunities and apply for jobs.
 
-## Run kaise kare (VS Code terminal me)
+## Live Demo
 
-**Mac / Linux**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
-```
-
-**Windows (PowerShell)**
-```powershell
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py runserver
-```
-
-Phir browser me kholo: http://127.0.0.1:8000/
-
-> Database (`db.sqlite3`) pehle se ready hai, demo data ke saath. `migrate` chalane ki zarurat nahi.
-
-## Demo logins
-
-| Role       | Username   | Password       |
-|------------|------------|----------------|
-| Employer   | employer1  | Demo@12345     |
-| Job Seeker | seeker1    | Demo@12345     |
-| Admin      | admin      | Admin@12345    |
-
-Admin panel: http://127.0.0.1:8000/admin/
+**Live Website:** https://techjobhub-1p1b.onrender.com
 
 ## Features
 
-- Signup (Job Seeker ya Employer chuno), login, logout
-- Jobs list with search (title / company / keyword + location) aur pagination
-- Job details page with **Apply now** (ek job par ek hi baar apply)
-- Employer: job post, edit, delete, apne postings dekhna, **applicants list** dekhna
-- Seeker: "My applications" page
-- Permissions: sirf employer job post kar sakta hai, sirf owner edit/delete kar sakta hai, employer apply nahi kar sakta
-- Responsive design (mobile pe bhi)
+- **User Authentication:** User registration, login, and logout.
+- **Role-Based Registration:** Users can register as Employers or Job Seekers.
+- **Job Listings:** Browse available job opportunities with pagination.
+- **Advanced Search:** Search jobs by title, company, keywords, and location.
+- **Job Details:** View complete information about job postings.
+- **Job Applications:** Apply for jobs with duplicate application prevention.
+- **Employer Dashboard:**
+  - Post new job listings.
+  - Edit and delete job postings.
+  - Manage personal job listings.
+  - View applicants for published jobs.
+- **Job Seeker Dashboard:** Track submitted applications through the My Applications section.
+- **Access Control:** Only employers can post jobs, and only job owners can edit or delete their listings.
+- **Responsive Design:** Optimized for desktop and mobile devices.
 
-## Useful commands
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Python | Programming Language |
+| Django | Backend Framework |
+| HTML5 | Frontend Structure |
+| CSS3 | Styling and Responsive Design |
+| SQLite | Local Development Database |
+| PostgreSQL | Production Database |
+| Render | Cloud Deployment |
+| Git & GitHub | Version Control |
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3
+- Git
+- VS Code or any code editor
+
+### Installation
+
+**1. Clone the repository**
 
 ```bash
-python manage.py test                 # 16 tests chalao
-python manage.py createsuperuser      # naya admin banao
-python manage.py seed_demo            # demo users + sample jobs dobara daalo
+git clone https://github.com/Vishal-codes07/TechJobHub.git
+cd TechJobHub
 ```
 
-Fresh database chahiye? `db.sqlite3` delete karo, phir
-`python manage.py migrate` aur `python manage.py seed_demo` chalao.
+**2. Create a virtual environment**
 
-## Project structure
+macOS / Linux:
 
-```
-jobportal/   settings + main urls
-accounts/    custom user (role), signup
-jobs/        Job + Application models, views, urls, tests
-templates/   base.html, login/signup, saare job pages
-static/css/  style.css
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
 
+Windows (PowerShell):
 
-## Deploy to Render (PostgreSQL)
+```powershell
+python -m venv venv
+venv\Scripts\activate
+```
 
-This project keeps SQLite as the local default and uses PostgreSQL when `DATABASE_URL` is set.
+**3. Install dependencies**
 
-### Render Web Service settings
+```bash
+pip install -r requirements.txt
+```
 
-- Runtime: Python 3
-- Region: Singapore (same region as the `techjobhub-db` database)
-- Root Directory: `Job_portal` (if the GitHub repository contains this folder at its top level)
-- Build Command: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
-- Start Command: `python manage.py migrate && gunicorn jobportal.wsgi:application`
+**4. Run database migrations**
 
-### Environment variables
+```bash
+python manage.py migrate
+```
 
-Add these in the Render Web Service → Environment:
+**5. Start the development server**
 
-- `SECRET_KEY`: generate a fresh Django secret key; do not reuse the old key.
-- `DEBUG`: `False`
-- `DATABASE_URL`: paste the PostgreSQL **Internal Database URL** from the existing Render database `techjobhub-db`.
+```bash
+python manage.py runserver
+```
 
-Never commit real secrets or paste database URLs/passwords into chats.
+Open the application:
 
-After deployment, create an admin account from the Render Shell using:
-`python manage.py createsuperuser`
+```text
+http://127.0.0.1:8000/
+```
 
-The SQLite demo database is retained for local development only. Its users/jobs are not automatically copied to PostgreSQL. Run migrations to create the production schema.
+## Demo Credentials
+
+The following credentials are available for the local demo database.
+
+| Role | Username | Password |
+|---|---|---|
+| Employer | `employer1` | `Demo@12345` |
+| Job Seeker | `job_seeker1` | `Demo@12345` |
+
+> Note: Demo accounts and sample job listings belong to the local SQLite database. They are not automatically transferred to the production PostgreSQL database.
+
+## Useful Commands
+
+Run automated tests:
+
+```bash
+python manage.py test
+```
+
+Load demo users and sample job listings:
+
+```bash
+python manage.py seed_demo
+```
+
+Reset the local database:
+
+Delete `db.sqlite3`, then run:
+
+```bash
+python manage.py migrate
+python manage.py seed_demo
+```
+
+## Project Structure
+
+```text
+TechJobHub/
+│
+├── accounts/       # User authentication and role management
+├── jobs/           # Job listings and application management
+├── jobportal/      # Django project settings and URL configuration
+├── templates/      # HTML templates
+├── static/
+│   └── css/        # Stylesheets
+│
+├── manage.py
+├── requirements.txt
+├── .env.example
+└── README.md
+```
+
+## Deployment – Render
+
+TechJobHub is deployed on Render and uses PostgreSQL for its production database.
+
+### Deployment Configuration
+
+| Setting | Value |
+|---|---|
+| Runtime | Python 3 |
+| Region | Singapore |
+| Database | PostgreSQL |
+| Build Command | `pip install -r requirements.txt && python manage.py collectstatic --noinput` |
+| Start Command | `python manage.py migrate && gunicorn jobportal.wsgi:application` |
+
+### Environment Variables
+
+Configure the following environment variables in the Render Web Service:
+
+| Variable | Description |
+|---|---|
+| `SECRET_KEY` | Django secret key |
+| `DEBUG` | `False` |
+| `DATABASE_URL` | postgresql://techjobhub_user:g5j8O38kvoXZMimDyWrmcJuktT4suaeY@dpg-dc3v0s5g1s2s73cqtrn0-a/techjobhub|
+
+> Security: Never commit secret keys, database credentials, or sensitive environment variables to GitHub.
+
+## Testing
+
+The project includes an automated test suite covering important application functionality.
+
+Run the tests using:
+
+```bash
+python manage.py test
+```
+
+## Author
+
+**Vishal Ahlawat**
+
+**GitHub:** https://github.com/Vishal-codes07
+
+**LinkedIn:** https://www.linkedin.com/in/vishal-ahlawat-0b2123257/
+
+---
+
+*TechJobHub – Connecting Employers with Opportunities.*
