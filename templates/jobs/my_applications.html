@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}My applications{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="container">
+    <div class="page-head">
+      <div>
+        <h1>My applications</h1>
+        <p class="sub">Jobs you have applied to.</p>
+      </div>
+    </div>
+
+    {% if applications %}
+      <div class="job-list">
+        {% for application in applications %}
+          {% with job=application.job %}
+          <article class="job-row">
+            <div class="monogram" aria-hidden="true">{{ job.company_name|slice:":1"|upper }}</div>
+            <div class="job-main">
+              <h2><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
+              <p class="job-company">{{ job.company_name }}</p>
+              <ul class="meta">
+                <li><span class="ico ico-pin"></span>{{ job.location }}</li>
+                <li><span class="ico ico-cal"></span>Applied {{ application.date_applied|date:"d M Y" }}</li>
+              </ul>
+            </div>
+            <div class="salary">
+              <strong>₹{{ job.salary|floatformat:0|intcomma }}</strong>
+              <span class="badge badge-ok" style="margin-top:.4rem">Applied</span>
+            </div>
+          </article>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <h2>You have not applied to any jobs yet</h2>
+        <p>Browse the latest openings and apply in one click.</p>
+        <a class="btn btn-accent" href="{% url 'job_list' %}">Browse jobs</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

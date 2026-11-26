@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Browse jobs{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h1>Find work that fits you</h1>
+    <p>Search openings by role, company or city and apply in a single click.</p>
+    <form class="search-bar" method="get" action="{% url 'job_list' %}" role="search">
+      <input type="search" name="q" value="{{ q }}" placeholder="Job title, company or keyword" aria-label="Job title, company or keyword">
+      <input type="search" name="location" value="{{ location }}" placeholder="City or state" aria-label="Location">
+      <button type="submit" class="btn btn-accent">Search jobs</button>
+    </form>
+  </div>
+</section>
+
+<div class="page">
+  <div class="container">
+    <div class="page-head">
+      <div>
+        <h2 style="margin:0">{% if q or location %}Search results{% else %}Latest openings{% endif %}</h2>
+        <p class="sub">{{ total_jobs }} job{{ total_jobs|pluralize }} found{% if q or location %} · <a href="{% url 'job_list' %}">Clear search</a>{% endif %}</p>
+      </div>
+    </div>
+
+    {% if jobs %}
+      <div class="job-list">
+        {% for job in jobs %}
+          <article class="job-row">
+            <div class="monogram" aria-hidden="true">{{ job.company_name|slice:":1"|upper }}</div>
+            <div class="job-main">
+              <h2><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
+              <p class="job-company">{{ job.company_name }}</p>
+              <ul class="meta">
+                <li><span class="ico ico-pin"></span>{{ job.location }}</li>
+                <li><span class="ico ico-cal"></span>Posted {{ job.date_posted|date:"d M Y" }}</li>
+              </ul>
+            </div>
+            <div class="salary">
+              <strong>₹{{ job.salary|floatformat:0|intcomma }}</strong>
+              <a class="btn btn-outline btn-sm" style="margin-top:.5rem" href="{% url 'job_detail' job.pk %}">View details</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+        <nav class="pagination" aria-label="Pagination">
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline btn-sm" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+          {% endif %}
+          <span class="current">Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline btn-sm" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% else %}
+      <div class="empty">
+        {% if q or location %}
+          <h2>No jobs match your search</h2>
+          <p>Try a different keyword or remove the location filter.</p>
+          <a class="btn" href="{% url 'job_list' %}">Show all jobs</a>
+        {% else %}
+          <h2>No jobs have been posted yet</h2>
+          <p>Check back soon, or post the first opening if you are an employer.</p>
+          {% if user.is_authenticated and user.role == 'employer' %}
+            <a class="btn btn-accent" href="{% url 'job_create' %}">Post a job</a>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+venv/
+env/
+.venv/
+env_Job_portal/
+__pycache__/
+*.pyc
+.DS_Store

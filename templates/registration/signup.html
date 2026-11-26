@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+<div class="container-narrow form-card">
+  <div class="panel">
+    <h1>Create your account</h1>
+    <p style="color:var(--muted)">Pick <strong>Job Seeker</strong> to apply for jobs, or <strong>Employer</strong> to post them.</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form_fields.html" %}
+      <button type="submit" class="btn btn-accent btn-block">Create account</button>
+    </form>
+    <p class="form-foot">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}
