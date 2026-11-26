@@ -1,8 +1,8 @@
 # JobPortal (Django)
 
-Employers job post karte hain, Job Seekers apply karte hain.
+Employers can post jobs, Job Seekers can apply for jobs.
 
-## Run kaise kare (VS Code terminal me)
+## How to run (VS Code terminal)
 
 **Mac / Linux**
 ```bash
@@ -20,9 +20,9 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-Phir browser me kholo: http://127.0.0.1:8000/
+After that open in Browser: http://127.0.0.1:8000/
 
-> Database (`db.sqlite3`) pehle se ready hai, demo data ke saath. `migrate` chalane ki zarurat nahi.
+> Database (`db.sqlite3`) is ready, no need to run. `migrate` for demo.
 
 ## Demo logins
 
@@ -36,12 +36,12 @@ Admin panel: http://127.0.0.1:8000/admin/
 
 ## Features
 
-- Signup (Job Seeker ya Employer chuno), login, logout
-- Jobs list with search (title / company / keyword + location) aur pagination
-- Job details page with **Apply now** (ek job par ek hi baar apply)
-- Employer: job post, edit, delete, apne postings dekhna, **applicants list** dekhna
+- Signup (Choose Job Seeker or Employer ), login, logout
+- Jobs list with search (title / company / keyword + location) and pagination
+- Job details page with **Apply now** (for one job apply once)
+- Employer: job post, edit, delete, can see his/her post, **applicants list** 
 - Seeker: "My applications" page
-- Permissions: sirf employer job post kar sakta hai, sirf owner edit/delete kar sakta hai, employer apply nahi kar sakta
+- Permissions: only employer can post jobs, only owner can edit/delete , employer can't apply for jobs
 - Responsive design (mobile pe bhi)
 
 ## Useful commands
@@ -52,8 +52,8 @@ python manage.py createsuperuser      # naya admin banao
 python manage.py seed_demo            # demo users + sample jobs dobara daalo
 ```
 
-Fresh database chahiye? `db.sqlite3` delete karo, phir
-`python manage.py migrate` aur `python manage.py seed_demo` chalao.
+if u want fresh database? delete `db.sqlite3` , then run commands
+`python manage.py migrate` and `python manage.py seed_demo` 
 
 ## Project structure
 
