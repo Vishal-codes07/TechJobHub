@@ -61,6 +61,6 @@ if u want fresh database? delete `db.sqlite3` , then run commands
 jobportal/   settings + main urls
 accounts/    custom user (role), signup
 jobs/        Job + Application models, views, urls, tests
-templates/   base.html, login/signup, saare job pages
+templates/   base.html, login/signup, all job pages
 static/css/  style.css
 ```
