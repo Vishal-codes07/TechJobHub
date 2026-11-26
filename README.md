@@ -47,9 +47,9 @@ Admin panel: http://127.0.0.1:8000/admin/
 ## Useful commands
 
 ```bash
-python manage.py test                 # 16 tests chalao
-python manage.py createsuperuser      # naya admin banao
-python manage.py seed_demo            # demo users + sample jobs dobara daalo
+python manage.py test                 # run 16 tests 
+python manage.py createsuperuser      # make a new admin
+python manage.py seed_demo            # update demo users + sample jobs 
 ```
 
 if u want fresh database? delete `db.sqlite3` , then run commands
