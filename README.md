@@ -99,7 +99,7 @@ The following credentials are available for the local demo database.
 
 | Role | Username | Password |
 |---|---|---|
-| Employer | `employer1` | `Demo@12345` |
+| Employer | `Employer2` | `Demo@12345` |
 | Job Seeker | `job_seeker1` | `Demo@12345` |
 
 > Note: Demo accounts and sample job listings belong to the local SQLite database. They are not automatically transferred to the production PostgreSQL database.
